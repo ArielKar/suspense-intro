@@ -50,6 +50,27 @@
   box-shadow: 0 4px 14px 1px rgba(7, 0, 79, 0.1);
 }
 
+.Loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 200px;
+}
+
+.Loader img {
+  width: 100px;
+}
+
+.Back-button {
+  height: 50px;
+  margin-left: 1em;
+}
+
+.Back-button:hover {
+  cursor: pointer;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

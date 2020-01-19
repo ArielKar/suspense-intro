@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { beatles } from "../../data";
 import { fetchBeatleDetails, fetchBeatleFacts } from "../../api";
 import beatlesLogo from "../../assets/images/the_beatles_logo.svg";
+import Loader from "../Loader";
+import BackButton from "../BackButton";
 
 const Before = props => {
   const [selectedBeatle, setSelectedBeatle] = useState(null);
@@ -51,11 +53,11 @@ const BeatleDetails = ({ beatleId, onBackClick }) => {
   };
 
   if (!beatleData) {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
   return (
     <>
-      <button onClick={onBackClick}>Back</button>
+      <BackButton onClick={onBackClick} />
       <div className="Beatle-details">
         <img src={beatleData.image} alt="a beatle" className="Beatle-image" />
         <div className="Beatle-info">
@@ -91,7 +93,7 @@ const BeatleFacts = ({ beatleId }) => {
     });
   };
   if (!factsData) {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
   return <>{renderBeatleFacts()}</>;
 };
