@@ -30,7 +30,9 @@ const After = props => {
             beatleData={selectedBeatle}
             onBackClick={handleBackClick}
           />
-          <BeatleFacts beatleData={selectedBeatle} />
+          <Suspense fallback={<Loader />}>
+            <BeatleFacts beatleData={selectedBeatle} />
+          </Suspense>
         </Suspense>
       </>
     );

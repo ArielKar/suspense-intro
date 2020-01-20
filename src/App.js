@@ -6,7 +6,7 @@ import After from "./components/After";
 function App() {
   return (
     <div className="App">
-      <After />
+      <Before />
     </div>
   );
 }
