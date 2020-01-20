@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { beatles } from "../../data";
+
 import { fetchBeatleDetails, fetchBeatleFacts } from "../../api";
-import beatlesLogo from "../../assets/images/the_beatles_logo.svg";
+
 import Loader from "../Loader";
 import BackButton from "../BackButton";
+import BeatlesList from "../BeatlesList";
+
+const parseDate = dateStr => {
+  if (!dateStr) return "-";
+  return new Date(dateStr).toDateString();
+};
 
 const Before = props => {
   const [selectedBeatle, setSelectedBeatle] = useState(null);
@@ -21,23 +27,7 @@ const Before = props => {
       <BeatleDetails beatleId={selectedBeatle} onBackClick={handleBackClick} />
     );
   }
-  return (
-    <>
-      <div>
-        <img src={beatlesLogo} alt="the beatles logo" />
-      </div>
-      {beatles.map(b => (
-        <div
-          key={b.id}
-          className="List-item"
-          onClick={() => handleBeatleSelect(b.id)}
-        >
-          <h3>{b.name}</h3>
-          <p>{b.roles}</p>
-        </div>
-      ))}
-    </>
-  );
+  return <BeatlesList onBeatleSelect={handleBeatleSelect} />;
 };
 
 const BeatleDetails = ({ beatleId, onBackClick }) => {
@@ -46,11 +36,6 @@ const BeatleDetails = ({ beatleId, onBackClick }) => {
   useEffect(() => {
     fetchBeatleDetails(beatleId).then(data => setBeatleData(data));
   }, [beatleId]);
-
-  const parseDate = dateStr => {
-    if (!dateStr) return "-";
-    return new Date(dateStr).toDateString();
-  };
 
   if (!beatleData) {
     return <Loader />;
@@ -84,17 +69,17 @@ const BeatleFacts = ({ beatleId }) => {
   });
 
   const renderBeatleFacts = () => {
-    return factsData.map((fact, idx) => {
-      return (
-        <div key={`${beatleId}fact${idx}`} className="Fact-list-item">
-          <p>{fact}</p>
-        </div>
-      );
-    });
+    return factsData.map((fact, idx) => (
+      <div key={`${beatleId}fact${idx}`} className="Fact-list-item">
+        <p>{fact}</p>
+      </div>
+    ));
   };
+
   if (!factsData) {
     return <Loader />;
   }
+
   return <>{renderBeatleFacts()}</>;
 };
 

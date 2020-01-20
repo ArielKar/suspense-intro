@@ -1,9 +1,15 @@
 import React, { useState, Suspense } from "react";
-import { beatles } from "../../data";
+
 import { fetchBeatleData } from "../../api";
-import beatlesLogo from "../../assets/images/the_beatles_logo.svg";
+
 import Loader from "../Loader";
 import BackButton from "../BackButton";
+import BeatlesList from "../BeatlesList";
+
+const parseDate = dateStr => {
+  if (!dateStr) return "-";
+  return new Date(dateStr).toDateString();
+};
 
 const After = props => {
   const [selectedBeatle, setSelectedBeatle] = useState(null);
@@ -18,39 +24,22 @@ const After = props => {
 
   if (selectedBeatle) {
     return (
-      <Suspense fallback={<Loader />}>
-        <BeatleDetails
-          beatleData={selectedBeatle}
-          onBackClick={handleBackClick}
-        />
-      </Suspense>
+      <>
+        <Suspense fallback={<Loader />}>
+          <BeatleDetails
+            beatleData={selectedBeatle}
+            onBackClick={handleBackClick}
+          />
+          <BeatleFacts beatleData={selectedBeatle} />
+        </Suspense>
+      </>
     );
   }
-  return (
-    <>
-      <div>
-        <img src={beatlesLogo} alt="the beatles logo" />
-      </div>
-      {beatles.map(b => (
-        <div
-          key={b.id}
-          className="List-item"
-          onClick={() => handleBeatleSelect(b.id)}
-        >
-          <h3>{b.name}</h3>
-          <p>{b.roles}</p>
-        </div>
-      ))}
-    </>
-  );
+  return <BeatlesList onBeatleSelect={handleBeatleSelect} />;
 };
 
 const BeatleDetails = ({ beatleData, onBackClick }) => {
   const details = beatleData.details.read();
-  const parseDate = dateStr => {
-    if (!dateStr) return "-";
-    return new Date(dateStr).toDateString();
-  };
 
   return (
     <>
@@ -68,7 +57,6 @@ const BeatleDetails = ({ beatleData, onBackClick }) => {
           className="Beatle-signature"
         />
       </div>
-      <BeatleFacts beatleData={beatleData} />
     </>
   );
 };
@@ -77,13 +65,11 @@ const BeatleFacts = ({ beatleData }) => {
   const factsData = beatleData.facts.read();
 
   const renderBeatleFacts = () => {
-    return factsData.map((fact, idx) => {
-      return (
-        <div key={`${factsData}fact${idx}`} className="Fact-list-item">
-          <p>{fact}</p>
-        </div>
-      );
-    });
+    return factsData.map((fact, idx) => (
+      <div key={`${factsData}fact${idx}`} className="Fact-list-item">
+        <p>{fact}</p>
+      </div>
+    ));
   };
   return <>{renderBeatleFacts()}</>;
 };
