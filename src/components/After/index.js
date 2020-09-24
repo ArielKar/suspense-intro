@@ -1,13 +1,13 @@
-import React, { useState, Suspense } from "react";
+import React, { useState, Suspense } from 'react';
 
-import { fetchBeatleData } from "../../api";
+import { fetchBeatleData } from '../../api';
 
-import Loader from "../Loader";
-import BackButton from "../BackButton";
-import BeatlesList from "../BeatlesList";
+import Loader from '../Loader';
+import BackButton from '../BackButton';
+import BeatlesList from '../BeatlesList';
 
 const parseDate = dateStr => {
-  if (!dateStr) return "-";
+  if (!dateStr) return '-';
   return new Date(dateStr).toDateString();
 };
 
@@ -26,10 +26,7 @@ const After = props => {
     return (
       <>
         <Suspense fallback={<Loader />}>
-          <BeatleDetails
-            beatleData={selectedBeatle}
-            onBackClick={handleBackClick}
-          />
+          <BeatleDetails beatleData={selectedBeatle} onBackClick={handleBackClick} />
           <Suspense fallback={<Loader />}>
             <BeatleFacts beatleData={selectedBeatle} />
           </Suspense>
@@ -53,11 +50,7 @@ const BeatleDetails = ({ beatleData, onBackClick }) => {
           <p>Born: {parseDate(details.born)}</p>
           <p>Died: {parseDate(details.died)}</p>
         </div>
-        <img
-          src={details.signature}
-          alt="signature"
-          className="Beatle-signature"
-        />
+        <img src={details.signature} alt="signature" className="Beatle-signature" />
       </div>
     </>
   );
